@@ -30,6 +30,13 @@ gem 'bcrypt', '~> 3.1.7'
 # Use bootstrap 4 to have faster css
 gem 'bootstrap', '~> 4.1.3'
 
+# To get data from google so user can login from google
+gem "omniauth"
+gem 'omniauth-google-oauth2'
+
+# To protect the secret key
+gem "figaro"
+
 # Use jQuery
 gem 'jquery-rails'
 
