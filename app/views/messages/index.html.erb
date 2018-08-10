@@ -3,3 +3,5 @@
     <li><%= message.message %>, created at <%= message.created_at %></li>
   <% end %>
 </ul>
+
+<%= will_paginate @messages  %>

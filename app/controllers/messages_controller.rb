@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   include ApplicationHelper
 
   def index
-    @messages = Message.all.order(:created_at).reverse_order
+    @messages = Message.all.reverse_order.paginate(:page => params[:page], :per_page => 15).order(:created_at)
   end
 
   def new

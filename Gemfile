@@ -36,6 +36,12 @@ gem 'omniauth-google-oauth2'
 # To protect the secret key
 gem "figaro"
 
+# To do seeding
+gem "betterlorem"
+
+# To do pagination
+gem 'will_paginate'
+
 # Use jQuery
 gem 'jquery-rails'
 
