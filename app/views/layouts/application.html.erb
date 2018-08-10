@@ -12,10 +12,12 @@
   <body>
     <% if signed_in? %>
       <%= button_to "Sign out", session_path(current_user.id), method: :delete %>
+      <%= link_to "Profile", user_path(current_user.id) %>
     <% else %>
       <%= button_to "Sign in", new_session_path, method: :get %>
       <%= button_to "Sign up", new_user_path, method: :get %>
     <% end %>
+    <%= link_to "Messages", messages_path %>
     <%= yield %>
   </body>
 </html>

@@ -1,0 +1,6 @@
+<%= form_with scope: :new_message, url: messages_path, local: true do |form| %>
+  <%= form.label :message %>
+  <%= form.text_area :message %>
+
+  <%= form.submit %>
+<% end %>
