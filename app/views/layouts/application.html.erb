@@ -20,6 +20,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <%= link_to "Messages", messages_path, class: "nav-link text-white" %>
+            </li>
             <% if signed_in? %>
               <li class="nav-item">
                 <%= link_to "Profile", user_path(current_user.id), class: "nav-link text-white" %>
@@ -41,8 +44,6 @@
     </nav>
     <%# end %>
 
-    <div class="container">
-      <%= yield %>
-    </div>
+    <%= yield %>
   </body>
 </html>
