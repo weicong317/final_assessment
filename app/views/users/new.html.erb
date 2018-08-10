@@ -1,14 +1,32 @@
-<%= form_with scope: :sign_up, url: user_index_path, local: true do |form| %>
-  <%= form.label :email %>
-  <%= form.text_field :email %>
+<style>
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+</style>
 
-  <%= form.label :password %>
-  <%= form.password_field :password %>
-
-  <%= form.label :password_confirmation %>
-  <%= form.password_field :password_confirmation %>
-
-  <%= form.submit "Create" %>
-<% end %>
-
-<%= link_to "Sign up with Google", "/auth/google_oauth2" %>
+<div class="text-center">
+  <%= form_with scope: :sign_up, url: user_index_path, local: true, class: "form-signin" do |form| %>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <p>
+      <%= form.label :email, "Email address", class: "sr-only" %>
+      <%= form.text_field :email, class: "form-control", placeholder: "Email address" %>
+    </p>
+    <p>
+      <%= form.label :password, class: "sr-only" %>
+      <%= form.password_field :password, class: "form-control", placeholder: "Password" %>
+    </p>
+    <p>
+      <%= form.label :password_confirmation, class: "sr-only" %>
+      <%= form.password_field :password_confirmation, class: "form-control", placeholder: "Password confirmation" %>
+    </p>
+    <p>
+      <%= link_to "Sign up with Google", "/auth/google_oauth2", class: "text-primary" %>
+    </p>
+    <p>
+      <%= form.submit "Sign Up", class:"btn btn-lg btn-primary btn-block" %>
+    </p>
+  <% end %>
+</div>

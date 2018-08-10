@@ -10,14 +10,39 @@
   </head>
 
   <body>
-    <% if signed_in? %>
-      <%= button_to "Sign out", session_path(current_user.id), method: :delete %>
-      <%= link_to "Profile", user_path(current_user.id) %>
-    <% else %>
-      <%= button_to "Sign in", new_session_path, method: :get %>
-      <%= button_to "Sign up", new_user_path, method: :get %>
-    <% end %>
-    <%= link_to "Messages", messages_path %>
-    <%= yield %>
+
+    <%# nav bar %>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <%= link_to "Secret Message", root_path, class: "navbar-brand"%>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <% if signed_in? %>
+              <li class="nav-item">
+                <%= link_to "Profile", user_path(current_user.id), class: "nav-link text-white" %>
+              </li>
+              <li class="nav-item">
+                  <%= link_to "Sign Out", session_path(current_user.id), method: :delete, class: "nav-link text-white" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Sign In", new_session_path, class: "nav-link text-white" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", new_user_path, class: "nav-link text-white" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <%# end %>
+
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>
