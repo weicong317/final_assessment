@@ -31,7 +31,6 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap', '~> 4.1.3'
 
 # To get data from google so user can login from google
-gem "omniauth"
 gem 'omniauth-google-oauth2'
 
 # To protect the secret key
