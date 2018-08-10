@@ -11,8 +11,8 @@ class User < ApplicationRecord
   enum role: [:user, :admin]
 
   def self.create_with_auth(auth_hash)
-    user = self.create!(email: auth_hash["info"]["email"], password: SecureRandom.hex(10))
-    user.authentications.build(provider: auth_hash["provider"], uid: auth_hash["uid"], user_id: User.id)
+    user = self.create(email: auth_hash["info"]["email"], password: SecureRandom.hex(10))
+    Authentication.create(provider: auth_hash["provider"], uid: auth_hash["uid"], user_id: user.id)
     return user
   end
 end
