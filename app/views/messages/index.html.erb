@@ -1,1 +1,5 @@
-message index
+<ul>
+  <% @messages.each do |message| %>
+    <li><%= message.message %>, created at <%= message.created_at %></li>
+  <% end %>
+</ul>

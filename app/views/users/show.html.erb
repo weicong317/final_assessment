@@ -1,3 +1,9 @@
 Welcome back <%= current_user.email %>,
 
 <%= button_to "Post new message", new_message_path, method: :get %>
+
+<ul>
+  <% @messages.each do |message| %>
+    <li><%= message.message %></li>
+  <% end %>
+</ul>

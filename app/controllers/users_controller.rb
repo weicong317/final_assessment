@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @messages = Message.where(user_id: current_user.id).order(:created_at).reverse_order
   end
 
   private

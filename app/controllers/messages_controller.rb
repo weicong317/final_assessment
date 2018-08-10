@@ -1,6 +1,10 @@
 class MessagesController < ApplicationController
   include ApplicationHelper
 
+  def index
+    @messages = Message.all.order(:created_at).reverse_order
+  end
+
   def new
   end
 
