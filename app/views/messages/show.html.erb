@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="card mt-4 w-100">
+      <% if !@message.upload.file.nil? %>
+        <%= image_tag @message.upload.url, class: "card-img-top img-fluid w-100" %>
+      <% end %>
+      <div class="card-body">
+        <h3 class="card-title">Post <%= @message.id %> <small class="text-muted">at <%= @message.created_at.strftime("%Y-%m-%d") %></small></h3>
+        <p class="card-text"><%= @message.message %></p>
+      </div>
+    </div>
+
+    <div class="card card-outline-secondary my-4 w-100">
+      <div class="card-header">
+        Comments
+      </div>
+      <div class="card-body">
+        <div id="commentBlock">
+          <% if @message.comments.size >0 %>
+            <% @message.comments.each do |comment| %>
+              <p><%= comment.text %></p>
+              <small class="text-muted">Comment on <%= comment.created_at.strftime("%Y-%m-%d") %></small>
+              <hr>
+            <% end %>
+          <% end %>
+        </div>
+        <%= form_with scope: :new_comment, url: comments_path, remote: true do |form| %>
+          <p>
+            <%= form.label :comment, "comment", class: "sr-only" %>
+            <%= form.text_area :comment, class: "form-control", placeholder: "Message" %>
+          </p>
+          <p><%= form.hidden_field :message_id, :value => @message.id %></p>
+          <p class="my-0 text-right">
+            <%= form.submit "Comment", class: "btn btn-lg btn-primary py-0", id: "submit" %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

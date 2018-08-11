@@ -42,6 +42,9 @@ gem "betterlorem"
 # To do pagination
 gem 'will_paginate'
 
+# To upload
+gem 'carrierwave'
+
 # Use jQuery
 gem 'jquery-rails'
 

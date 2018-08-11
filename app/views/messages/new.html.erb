@@ -1,6 +1,17 @@
-<%= form_with scope: :new_message, url: messages_path, local: true do |form| %>
-  <%= form.label :message %>
-  <%= form.text_area :message %>
+<div class="text-center">
+  <%= form_with scope: :new_message, url: messages_path, local: true, class: "form-newmessage" do |form| %>
 
-  <%= form.submit %>
-<% end %>
+    <h1 class="h3 mb-3 font-weight-normal">Please post new secret message</h1>
+    <p>
+      <%= form.label :message, "Email address", class: "sr-only" %>
+      <%= form.text_area :message, class: "form-control", placeholder: "Message", style: "height: 200px" %>
+    </p>
+    <p>
+      <%= form.label :upload, "Only image: " %>
+      <%= form.file_field :upload %>
+    </p>
+    <p>
+      <%= form.submit "Post", class: "btn btn-lg btn-primary btn-block" %>
+    </p>
+  <% end %>
+</div>

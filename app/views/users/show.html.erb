@@ -1,9 +1,22 @@
-Welcome back <%= current_user.email %>,
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <%= button_to "Post new message", new_message_path, method: :get, class: "btn btn-primary btn-block my-3" %>
 
-<%= button_to "Post new message", new_message_path, method: :get %>
+      <h3 class="text-center">Welcome back <%= current_user.email %></h3>
 
-<ul>
-  <% @messages.each do |message| %>
-    <li><%= message.message %></li>
-  <% end %>
-</ul>
+      <p>All your posts</p>
+      <div>
+        <ul>
+          <% @messages.each do |message| %>
+            <li><%= link_to "Post #{message.id}", message_path(message.id) %>
+              <ul>
+                <li><%= truncate(message.message, length: 200, separator: ' ') %></li>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

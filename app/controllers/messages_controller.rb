@@ -9,15 +9,21 @@ class MessagesController < ApplicationController
   end
 
   def create
-    message = Message.create(message: create_params[:message], user_id: current_user.id)
+    message = Message.create(message: create_params[:message], user_id: current_user.id, upload: create_params[:upload])
     redirect_to messages_path
   end
 
   def show
+    @message = Message.find(params[:id].to_i)
+    
+    respond_to do |format|
+      format.html
+      format.json {render json:@message}
+    end
   end
 
   private
   def create_params
-    params.require(:new_message).permit(:message)
+    params.require(:new_message).permit(:message, :upload)
   end
 end

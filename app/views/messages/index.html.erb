@@ -9,11 +9,14 @@
   </div>
 
   <div class="row">
-    <div class="mx-auto">
+    <div class="text-left">
       <% @messages.each do |message| %>
-        <h4>Post <%= message.id%> <small>Posted on <%= message.created_at.strftime("%Y-%m-%d") %></small></h4>
-        <p><%= truncate(message.message, length: 200, separator: ' '){ link_to "Continue", message_path(message.id) } %></p>
-        <p></p>
+        <h4>Post <%= message.id%> <small class="text-muted">Posted on <%= message.created_at.strftime("%Y-%m-%d") %></small></h4>
+        <% if message.message.length > 200 %>
+          <p><%= truncate(message.message, length: 200, separator: ' '){ link_to "View all with comment", message_path(message.id) } %></p>
+        <% else %>
+          <p><%= message.message %> <%= link_to "View comment", message_path(message.id) %></p>
+        <% end %>
       <% end %>
     </div>
   </div>
