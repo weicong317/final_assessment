@@ -15,10 +15,28 @@ class MessagesController < ApplicationController
 
   def show
     @message = Message.find(params[:id].to_i)
+    @reports = @message.reports
+  end
+
+  def destroy
+    Message.find(params[:id]).destroy
+    redirect_to admin_dashboard_path
+  end
+
+  def update
+    Message.find(params[:id]).update(delete_request: '<i class="fas fa-exclamation-circle"></i>')
+    redirect_to admin_dashboard_path
   end
 
   def search
     @message = Message.find(search_params[:search])
+    
+    redirect_to @message
+  end
+
+  def delete_request
+    @message = Message.find(params[:id])
+    @message.update(delete_request: delete_params[:reason])
     
     redirect_to @message
   end
@@ -54,5 +72,9 @@ class MessagesController < ApplicationController
 
   def search_params
     params.require(:post_number).permit(:search)
+  end
+
+  def delete_params
+    params.require(:delete_message).permit(:reason)
   end
 end

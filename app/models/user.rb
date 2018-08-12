@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   has_many :messages, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :reports, dependent: :destroy
   has_many :authentications, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true, format: { with: /\S+@\S+\.\S+/, message: "Email is invalid" }

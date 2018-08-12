@@ -1,0 +1,81 @@
+<% if @messages_request_delete.empty? && @reported_messages.empty? %>
+  <div class="mt-3 text-center">
+    <h1>No action yet</h1>
+  </div>
+<% else %>
+  <% if !@messages_request_delete.empty? %>
+    <div class="mt-3">
+      <h3>Requested delete messages</h3>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr class="text-center">
+            <th scope="col"></th>
+            <th scope="col">Message ID</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @messages_request_delete.each_with_index do |message, index| %>
+            <tr class="text-center">
+              <th scope="row"><%= index + 1 %></th>
+              <td><%= message.id %></td>
+              <td><%= message.user.email %></td>
+              <td>
+                <%= button_tag "View", type: "button", class: "btn btn-outline-primary", data: { toggle: "modal", target: "#actionDecide" } %>
+              
+                <div class="modal fade" id="actionDecide" tabindex="-1" role="dialog" aria-labelledby="actionDecideTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="actionDecideTitle">Delete Message Reason</h5>
+                      </div>
+                      <div class="modal-body text-left">
+                        <%= message.delete_request %>
+                      </div>
+                      <div class="modal-footer">
+                        <%= button_tag "Close", type: "button", class: "btn btn-secondary", data: { dismiss: "modal" } %>
+                        <%= button_to "Approve", message_path(message.id), class: "btn btn-primary", method: :delete %>
+                        <%= button_to "Cancel request", message_path(message.id), class: "btn btn-primary", method: :patch %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <% if !@reported_messages.empty? %>
+    <div class="mt-3">
+      <h3>Messages reported more than 10 times</h3>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr class="text-center">
+            <th scope="col"></th>
+            <th scope="col">Message ID</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Times</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @reported_messages.each_with_index do |message, index| %>
+            <tr class="text-center">
+              <th scope="row"><%= index + 1 %></th>
+              <td><%= message.id %></td>
+              <td><%= message.user.email %></td>
+              <td><%= message.reports.size %></td>
+              <td>
+                <%= button_to "Delete", message_path(message.id), class: "btn btn-outline-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+<% end %>

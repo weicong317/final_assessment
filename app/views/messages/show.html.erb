@@ -1,11 +1,88 @@
 <div class="container">
   <div class="row">
+    <% if signed_in? and current_user.role === "admin" %>
+      <div class="mx-auto mt-3">
+        <%= button_to "Delete this message", message_path(@message.id), class: "btn btn-danger", method: :delete %>
+      </div>
+    <% end %>
+    <% if signed_in? and current_user.id != @message.user.id and current_user.role != "admin" %>
+      <div class="mx-auto mt-3">
+        <% if !@reports.empty? %>
+          <% @reports.each do |report| %>
+            <% if report.user.id === current_user.id %>
+              <%= button_to "Reported. Click to cancel.", message_report_path(message_id: @message.id, id: report.id), class: "btn btn-primary", method: :delete %>
+              <% break %>
+            <% end %>
+            <%= button_to "Report this message", message_reports_path(@message.id), class: "btn btn-warning" %>
+          <% end %>
+        <% else %>
+          <%= button_to "Report this message", message_reports_path(@message.id), class: "btn btn-warning" %>
+        <% end %>  
+      </div>
+    <% elsif signed_in? and current_user.id === @message.user.id and current_user.role != "admin" %>
+      <div class="mx-auto mt-3" id="deleteOrMessage">
+        <% if @message.delete_request.nil? %>
+          <%= button_tag "Delete Message", type: "button", class: "btn btn-warning", data: { toggle: "modal", target: "#deleteMessage" } %>
+
+          <div class="modal fade" id="deleteMessage" tabindex="-1" role="dialog" aria-labelledby="deleteMessageTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteMessageTitle">Delete Message Request</h5>
+                </div>
+                <%= form_with scope: :delete_message, url: "/messages/delete_request/#{@message.id}" , local: true do |form| %>
+                  <div class="modal-body">
+                    <%= form.label :reason, "Reason", class: "sr-only" %>
+                    <%= form.text_area :reason, class: "form-control", placeholder: "Reason", style: "height: 100px" %>
+                  </div>
+                  <div class="modal-footer">
+                    <%= button_tag "Close", type: "button", class: "btn btn-secondary", data: { dismiss: "modal" } %>
+                    <%= form.submit "Submit request", class: "btn btn-warning", data: { confirm: 'Confirm?' } %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% elsif @message.delete_request === '<i class="fas fa-exclamation-circle"></i>' %>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteMessageDenied">
+            <i class="fas fa-exclamation-circle"></i> Delete Request Denied. Request again to appeal.
+          </button>
+
+          <div class="modal fade" id="deleteMessageDenied" tabindex="-1" role="dialog" aria-labelledby="deleteMessageDeniedTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteMessageDeniedTitle">Delete Message Request Appeal</h5>
+                </div>
+                <%= form_with scope: :delete_message, url: "/messages/delete_request/#{@message.id}" , local: true do |form| %>
+                  <div class="modal-body">
+                    <%= form.label :reason, "Reason", class: "sr-only" %>
+                    <%= form.text_area :reason, class: "form-control", placeholder: "Reason", style: "height: 100px" %>
+                  </div>
+                  <div class="modal-footer">
+                    <%= button_tag "Close", type: "button", class: "btn btn-secondary", data: { dismiss: "modal" } %>
+                    <%= form.submit "Submit request", class: "btn btn-warning", data: { confirm: 'Confirm?' } %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <div class="card text-white bg-primary">
+            <div class="card-body p-1">
+              <h5 class="card-title m-0">Delete Requested</h5>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="card mt-4 w-100">
       <% if !@message.upload.file.nil? %>
         <%= image_tag @message.upload.url, class: "card-img-top img-fluid w-100" %>
       <% end %>
       <div class="card-body">
-        <h3 class="card-title">Post <%= @message.id %> <small class="text-muted">at <%= @message.created_at.strftime("%Y-%m-%d") %></small></h3>
+        <h3 class="card-title">Message <%= @message.id %> <small class="text-muted">at <%= @message.created_at.strftime("%Y-%m-%d") %></small></h3>
         <p class="card-text"><%= @message.message %></p>
       </div>
     </div>
@@ -24,15 +101,21 @@
             <% end %>
           <% end %>
         </div>
-        <%= form_with scope: :new_comment, url: comments_path, remote: true do |form| %>
-          <p>
-            <%= form.label :comment, "comment", class: "sr-only" %>
-            <%= form.text_area :comment, class: "form-control", placeholder: "Message" %>
-          </p>
-          <p><%= form.hidden_field :message_id, :value => @message.id %></p>
-          <p class="my-0 text-right">
-            <%= form.submit "Comment", class: "btn btn-lg btn-primary py-0", id: "submit" %>
-          </p>
+        <% if signed_in? && current_user.role === "user" %>
+          <%= form_with scope: :new_comment, url: comments_path, remote: true do |form| %>
+            <p>
+              <%= form.label :comment, "comment", class: "sr-only" %>
+              <%= form.text_area :comment, class: "form-control", placeholder: "Message" %>
+            </p>
+            <p><%= form.hidden_field :message_id, :value => @message.id %></p>
+            <p class="my-0 text-right">
+              <%= form.submit "Comment", class: "btn btn-lg btn-primary py-0", id: "submit" %>
+            </p>
+          <% end %>
+        <% elsif !signed_in? %>
+          <div class="text-center">
+            <%= button_to "Sign in please", new_session_path, class: "btn btn-lg btn-primary py-0", method: :get %>
+          </div>
         <% end %>
       </div>
     </div>

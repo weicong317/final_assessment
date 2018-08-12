@@ -8,7 +8,11 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: create_params[:email])
     if @user && @user.authenticate(create_params[:password])
       sign_in(@user)
-      redirect_to user_path(current_user.id)
+      if current_user.role === "user"
+        redirect_to user_path(current_user.id)
+      else
+        redirect_to admin_dashboard_path
+      end
     else
       redirect_to root_path
     end
@@ -31,7 +35,11 @@ class SessionsController < ApplicationController
     end
 
     sign_in(user)
-    redirect_to user_path(current_user.id)
+    if current_user.role === "user"
+      redirect_to user_path(current_user.id)
+    else
+      redirect_to admin_dashboard_path
+    end
   end
 
   private

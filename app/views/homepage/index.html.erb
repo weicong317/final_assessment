@@ -8,7 +8,7 @@
       <h2><strong><u>Latest 5 messages</u></strong></h2>
       <% @messages.each do |message| %>
         <div>
-          <h4>Post <%= message.id%></h4>
+          <h4>Message <%= message.id%></h4>
           <p><%= message.message %></p>
           <p>Posted on <%= message.created_at.strftime("%Y-%m-%d") %></p>
         </div>

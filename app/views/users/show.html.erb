@@ -5,11 +5,11 @@
 
       <h3 class="text-center">Welcome back <%= current_user.email %></h3>
 
-      <p>All your posts</p>
+      <p>All your messages</p>
       <div>
         <ul>
           <% @messages.each do |message| %>
-            <li><%= link_to "Post #{message.id}", message_path(message.id) %>
+            <li><%= link_to "Message #{message.id}", message_path(message.id) %>
               <ul>
                 <li><%= truncate(message.message, length: 200, separator: ' ') %></li>
               </ul>
