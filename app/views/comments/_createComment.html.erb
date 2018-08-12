@@ -1,3 +1,9 @@
-<p><%= @comment.text %></p>
-<small class="text-muted">Comment on <%= @comment.created_at.strftime("%Y-%m-%d") %></small>
-<hr>
+<% if signed_in? && current_user.id === @comment.user.id %>
+  <%= form_with scope: :delete_comment, url: comment_path(@comment.id), remote: true, method: :delete do |form| %>
+    <p><%= @comment.text %>  <%= form.submit "Delete", class: "btn btn-lg btn-primary py-0 btn-sm" %></p>
+  <% end %>
+<% else %>
+  <p><%= @comment.text %></p>
+<% end %>
+  <small class="text-muted">Comment on <%= @comment.created_at.strftime("%Y-%m-%d") %></small>
+  <hr>

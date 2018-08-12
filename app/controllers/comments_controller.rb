@@ -8,6 +8,15 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    message_id = Comment.find(params[:id]).message.id
+    Comment.find(params[:id]).destroy
+    @message = Message.find(message_id)
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
   def create_params
     params.require(:new_comment).permit(:comment, :message_id)
