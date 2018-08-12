@@ -6,8 +6,8 @@ class User < ApplicationRecord
   has_many :reports, dependent: :destroy
   has_many :authentications, dependent: :destroy
 
-  validates :email, presence: true, uniqueness: true, format: { with: /\S+@\S+\.\S+/, message: "Email is invalid" }
-  validates :password, length: { in: 6..20 }, presence: true
+  validates :email, presence: true, uniqueness: true, format: { with: /\S+@\S+\.\S+/, message: "Email is invalid" }, on: :create
+  validates :password, length: { in: 6..20 }, presence: true, on: :create
 
   enum role: [:user, :admin]
 
