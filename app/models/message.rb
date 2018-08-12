@@ -2,7 +2,9 @@ class Message < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
 
-  validates :user_id, presence: true
-
+  validates :user_id, :message, :category, presence: true
+  
   mount_uploader :upload, MediaUploader
+
+  enum category: [:family, :relationship, :study, :work, :others]
 end

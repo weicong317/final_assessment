@@ -1,14 +1,18 @@
-<div class="text-center">
+<div>
   <%= form_with scope: :new_message, url: messages_path, local: true, class: "form-newmessage" do |form| %>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please post new secret message</h1>
-    <p>
+    <h1 class="h3 mb-3 font-weight-normal text-center">Please post new secret message</h1>
+    <p class="text-center">
       <%= form.label :message, "Email address", class: "sr-only" %>
       <%= form.text_area :message, class: "form-control", placeholder: "Message", style: "height: 200px" %>
     </p>
     <p>
-      <%= form.label :upload, "Only image: " %>
+      <%= form.label :upload, "Only image:" %><br>
       <%= form.file_field :upload %>
+    </p>
+    <p>
+      <%= form.label :category, "Category:" %><br>
+      <%= form.select :category, options_for_select([['Family', 1], ['Relationship', 2], ['Study', 3], ['Work', 4], ['Others', 5]]) %>
     </p>
     <p>
       <%= form.submit "Post", class: "btn btn-lg btn-primary btn-block" %>
