@@ -1,26 +1,45 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
+    <div class="col-lg-3">
+      <%= form_with scope: :post_number, url: messages_search_path, local: true, class: "mt-2", method: :get do |form| %>
+        <%= form.label :search, "Search", class: "sr-only" %>
+        <%= form.text_field :search, class: "form-control", placeholder: "Post number" %>
+        <%= form.submit "Search", class: "btn btn-outline-success mt-1" %>
+      <% end %>
+      <h3 class="my-4">Order By</h3>
+      <div class="list-group">
+        <%= form_with scope: :OldToNew, url: messages_orderByOldToNew_path, remote: true, method: :get do |form| %>
+          <%= form.submit "Oldest to newest", class: "list-group-item btn-block btn-outline-primary" %>
+        <% end %>
+        <%= form_with scope: :withComment, url: messages_orderByWithComment_path, remote: true, method: :get do |form| %>
+          <%= form.submit "With Comment", class: "list-group-item btn-block btn-outline-primary" %>
+        <% end %>
+        <%= form_with scope: :withImage, url: messages_orderByWithImage_path, remote: true, method: :get do |form| %>
+          <%= form.submit "With Image", class: "list-group-item btn-block btn-outline-primary" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-lg-9 mx-auto">
       <div id="quoteBlock" class="mt-3">
         <h4 id="quote"></h4>
-        <p id="author"></p>
+        <p id="author" class="text-right"></p>
+      </div>
+    
+      <div class="row">
+        <div class="col-lg-8 col-md-10 text-left" id="messageArea">
+          <% @messages.each do |message| %>
+            <h4>Post <%= message.id%> <small class="text-muted">Posted on <%= message.created_at.strftime("%Y-%m-%d") %></small></h4>
+            <% if message.message.length > 200 %>
+              <p><%= truncate(message.message, length: 200, separator: ' '){ link_to "View all with comment", message_path(message.id) } %></p>
+            <% else %>
+              <p><%= message.message %> <%= link_to "View comment", message_path(message.id) %></p>
+            <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="text-left">
-      <% @messages.each do |message| %>
-        <h4>Post <%= message.id%> <small class="text-muted">Posted on <%= message.created_at.strftime("%Y-%m-%d") %></small></h4>
-        <% if message.message.length > 200 %>
-          <p><%= truncate(message.message, length: 200, separator: ' '){ link_to "View all with comment", message_path(message.id) } %></p>
-        <% else %>
-          <p><%= message.message %> <%= link_to "View comment", message_path(message.id) %></p>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
-
 </div>
 
 <%= will_paginate @messages, class: "apple_pagination" %>
