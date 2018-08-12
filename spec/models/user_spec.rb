@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  
-  context "validations" do
 
+  context "validations" do
 
     describe "should have email and password_digest and role" do
       it { should have_db_column(:email).of_type(:string) }
@@ -53,6 +52,7 @@ RSpec.describe User, type: :model do
   end
 
   context "creations" do
+    
     # happy_path
     describe "created when all attributes are present" do
       When(:user) { User.create(
@@ -86,7 +86,6 @@ RSpec.describe User, type: :model do
       )}
       Then { user.valid? == false }
     end
-
 
     describe "permit valid email only" do
       let(:user1) { User.create(
