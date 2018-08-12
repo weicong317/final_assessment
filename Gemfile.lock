@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: 712702f98fac85ed816618ff9f7fb80a5a1a9db8
+  branch: master
+  specs:
+    faker (1.9.1)
+      i18n (>= 0.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -76,7 +84,6 @@ GEM
     chromedriver-helper (1.2.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
-    coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -151,9 +158,6 @@ GEM
       omniauth (~> 1.2)
     pg (1.0.0)
     popper_js (1.14.3)
-    pry (0.11.3)
-      coderay (~> 1.1.0)
-      method_source (~> 0.9.0)
     public_suffix (3.0.2)
     puma (3.12.0)
     rack (2.0.5)
@@ -247,13 +251,13 @@ DEPENDENCIES
   carrierwave
   chromedriver-helper
   coffee-rails (~> 4.2)
+  faker!
   figaro
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   omniauth-google-oauth2
   pg (>= 0.18, < 2.0)
-  pry
   puma (~> 3.11)
   rails (~> 5.2.1)
   sass-rails (~> 5.0)

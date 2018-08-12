@@ -38,6 +38,7 @@ gem "figaro"
 
 # To do seeding
 gem "betterlorem"
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 
 # To do pagination
 gem 'will_paginate'

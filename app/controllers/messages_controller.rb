@@ -1,5 +1,7 @@
 class MessagesController < ApplicationController
-  include ApplicationHelper
+  before_action :check_login, only: [:new, :create]
+  before_action :check_role, only: [:destroy, :update]
+  before_action :check_authorization, only: [:delete_request]
 
   def index
     @messages = Message.all.reverse_order.paginate(:page => params[:page], :per_page => 20).order(:created_at)
@@ -14,7 +16,7 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = Message.find(params[:id].to_i)
+    @message = Message.find(params[:id])
     @reports = @message.reports
   end
 
@@ -76,5 +78,35 @@ class MessagesController < ApplicationController
 
   def delete_params
     params.require(:delete_message).permit(:reason)
+  end
+
+  def check_login
+    if signed_in?
+      if current_user.role != "user"
+        redirect_to messages_path
+      end
+    else
+      redirect_to new_session_path
+    end
+  end
+
+  def check_authorization
+    if signed_in?   
+      if Message.find(params[:id]).user.id != current_user.id
+        redirect_to messages_path
+      end
+    else
+      redirect_to new_session_path
+    end
+  end
+
+  def check_role
+    if signed_in?
+      if current_user.role === "user"
+        redirect_to messages_path
+      end
+    else
+      redirect_to new_session_path
+    end      
   end
 end
