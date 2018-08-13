@@ -1,14 +1,17 @@
 <div class="container">
   <div class="row">
+    <%# show delete button for admin to delete directly even not request and report %>
     <% if signed_in? and current_user.role === "admin" %>
       <div class="mx-auto mt-3">
         <%= button_to "Delete this message", message_path(@message.id), class: "btn btn-danger", method: :delete %>
       </div>
     <% end %>
+    <%# show report button if message owner is not current user %>
     <% if signed_in? and current_user.id != @message.user.id and current_user.role != "admin" %>
       <div class="mx-auto mt-3">
-        <% if !@reports.empty? %>
-          <% @reports.each do |report| %>
+        <% if !@message.reports.empty? %>
+          <%# check if the current user reported the message or not %>
+          <% @message.reports.each do |report| %>
             <% if report.user.id === current_user.id %>
               <%= button_to "Reported. Click to cancel.", message_report_path(message_id: @message.id, id: report.id), class: "btn btn-primary", method: :delete %>
               <% break %>
@@ -19,11 +22,15 @@
           <%= button_to "Report this message", message_reports_path(@message.id), class: "btn btn-warning" %>
         <% end %>  
       </div>
+    <%# show delete request button if message owner is current user %>
     <% elsif signed_in? and current_user.id === @message.user.id and current_user.role != "admin" %>
       <div class="mx-auto mt-3" id="deleteOrMessage">
+        <%# not request delete before %>
         <% if @message.delete_request.nil? %>
-          <%= button_tag "Delete Message", type: "button", class: "btn btn-warning", data: { toggle: "modal", target: "#deleteMessage" } %>
-
+          <%# using modal to let user to enter reason before submit delete request %>
+          <%= button_tag "Delete Message", type: "button", class: "btn btn-warning", data: { toggle: "modal", terget: "#deleteMessage" } %>
+          
+          <%# modal start %>
           <div class="modal fade" id="deleteMessage" tabindex="-1" role="dialog" aria-labelledby="deleteMessageTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
@@ -43,11 +50,14 @@
               </div>
             </div>
           </div>
+        <%# requested by rejected %>
         <% elsif @message.delete_request === '<i class="fas fa-exclamation-circle"></i>' %>
+          <%# another modal to let user to appeal and request again %>
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteMessageDenied">
             <i class="fas fa-exclamation-circle"></i> Delete Request Denied. Request again to appeal.
           </button>
 
+          <%# modal start here %>
           <div class="modal fade" id="deleteMessageDenied" tabindex="-1" role="dialog" aria-labelledby="deleteMessageDeniedTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
@@ -67,6 +77,7 @@
               </div>
             </div>
           </div>
+        <%# requested and not yet being handle by admin %>
         <% else %>
           <div class="card text-white bg-primary">
             <div class="card-body p-1">
@@ -77,7 +88,9 @@
       </div>
     <% end %>
 
+    <%# show the message %>
     <div class="card mt-4 w-100">
+      <%# got image put image %>
       <% if !@message.upload.file.nil? %>
         <%= image_tag @message.upload.url, class: "card-img-top img-fluid w-100" %>
       <% end %>
@@ -87,6 +100,7 @@
       </div>
     </div>
 
+    <%# comments of the message %>
     <div class="card card-outline-secondary my-4 w-100">
       <div class="card-header">
         Comments
@@ -95,6 +109,7 @@
         <div id="commentBlock">
           <% if @message.comments.size > 0 %>
             <% @message.comments.each do |comment| %>
+              <%# show delete button if the comment belong to current user %>
               <% if signed_in? && current_user.id === comment.user.id %>
                 <%= form_with scope: :delete_comment, url: comment_path(comment.id), remote: true, method: :delete do |form| %>
                   <p><%= comment.text %>  <%= form.submit "Delete", class: "btn btn-lg btn-primary py-0 btn-sm" %></p>
@@ -107,6 +122,7 @@
             <% end %>
           <% end %>
         </div>
+        <%# post new comment field, signed in, show the field, else show button to go to sign in form %>
         <% if signed_in? && current_user.role === "user" %>
           <%= form_with scope: :new_comment, url: comments_path, remote: true do |form| %>
             <p>

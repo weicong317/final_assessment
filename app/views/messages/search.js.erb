@@ -1,2 +1,5 @@
+<%# empty and append new data %>
 $( "#messageArea" ).empty().append('<%= j render "searchBy" %>')
+
+<%# reset to empty the form %>
 $("form").trigger("reset"); 

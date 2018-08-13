@@ -1,8 +1,10 @@
+<%# if not data come in, dont show table %>
 <% if @messages_request_delete.empty? && @reported_messages.empty? %>
   <div class="mt-3 text-center">
     <h1>No action yet</h1>
   </div>
 <% else %>
+  <%# delete request table %>
   <% if !@messages_request_delete.empty? %>
     <div class="mt-3">
       <h3>Requested delete messages</h3>
@@ -16,14 +18,17 @@
           </tr>
         </thead>
         <tbody>
+          <%# list the delete request in different row %>
           <% @messages_request_delete.each_with_index do |message, index| %>
             <tr class="text-center">
               <th scope="row"><%= index + 1 %></th>
               <td><%= message.id %></td>
               <td><%= message.user.email %></td>
               <td>
+                <%# having modal to see the reason and decide what to do %>
                 <%= button_tag "View", type: "button", class: "btn btn-outline-primary", data: { toggle: "modal", target: "#actionDecide" } %>
               
+                <%# modal start here %>
                 <div class="modal fade" id="actionDecide" tabindex="-1" role="dialog" aria-labelledby="actionDecideTitle" aria-hidden="true">
                   <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -33,6 +38,7 @@
                       <div class="modal-body text-left">
                         <%= message.delete_request %>
                       </div>
+                      <%# button to choose the action %>
                       <div class="modal-footer">
                         <%= button_tag "Close", type: "button", class: "btn btn-secondary", data: { dismiss: "modal" } %>
                         <%= button_to "Approve", message_path(message.id), class: "btn btn-primary", method: :delete %>
@@ -49,6 +55,7 @@
     </div>
   <% end %>
 
+  <%# report table, only message more than 10 times will show here %>
   <% if !@reported_messages.empty? %>
     <div class="mt-3">
       <h3>Messages reported more than 10 times</h3>

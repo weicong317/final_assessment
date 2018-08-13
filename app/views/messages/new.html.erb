@@ -12,6 +12,7 @@
     </p>
     <p>
       <%= form.label :category, "Category:" %><br>
+      <%# dropdown selection with others as default %>
       <%= form.select :category, options_for_select([['Family', 1], ['Relationship', 2], ['Study', 3], ['Work', 4], ['Others', 5]], ['Others', 5]) %>
     </p>
     <p>

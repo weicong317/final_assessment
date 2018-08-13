@@ -1,9 +1,11 @@
+<%# if the comment user is current user, add a delete button %>
 <% if signed_in? && current_user.id === @comment.user.id %>
   <%= form_with scope: :delete_comment, url: comment_path(@comment.id), remote: true, method: :delete do |form| %>
     <p><%= @comment.text %>  <%= form.submit "Delete", class: "btn btn-lg btn-primary py-0 btn-sm" %></p>
   <% end %>
+<%# without delete button %>
 <% else %>
   <p><%= @comment.text %></p>
 <% end %>
-  <small class="text-muted">Comment on <%= @comment.created_at.strftime("%Y-%m-%d") %></small>
-  <hr>
+<small class="text-muted">Comment on <%= @comment.created_at.strftime("%Y-%m-%d") %></small>
+<hr>

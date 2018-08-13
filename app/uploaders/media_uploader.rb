@@ -4,6 +4,7 @@ class MediaUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
+  # choose place of storage depend on the environment
   if Rails.env.production?
     storage :fog
   else
@@ -38,6 +39,7 @@ class MediaUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
+  # fix only image can upload
   def extension_whitelist
     %w(jpg jpeg gif png)
   end

@@ -41,9 +41,11 @@ RSpec.describe Message, type: :model do
     describe "belong to user" do
       it { should belong_to(:user) }
     end
+  
   end
 
   context "creations" do
+    
     let(:user) { User.create(
       email: "testing@gmail.com", password: "123456", password_confirmation: "123456"
     )}

@@ -7,12 +7,12 @@
 
     <%# link to fontawesome %>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
-
     <%# nav bar %>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
@@ -22,9 +22,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
+            <%# always show message index selection %>
             <li class="nav-item">
               <%= link_to "Messages", messages_path, class: "nav-link text-white" %>
             </li>
+            <%# show based in session and role %>
             <% if signed_in? %>
               <% if current_user.role === "admin" %>
                 <li class="nav-item">
@@ -36,7 +38,7 @@
                 </li>
               <% end %>
               <li class="nav-item">
-                  <%= link_to "Sign Out", session_path(current_user.id), method: :delete, class: "nav-link text-white" %>
+                <%= link_to "Sign Out", session_path(current_user.id), method: :delete, class: "nav-link text-white" %>
               </li>
             <% else %>
               <li class="nav-item">
@@ -50,7 +52,6 @@
         </div>
       </div>
     </nav>
-    <%# end %>
 
     <%= yield %>
   </body>

@@ -1,2 +1,5 @@
+<%# append to the section %>
 $('#commentBlock').append('<%= j render "createComment" %>');
+
+<%# reset the form to be empty %>
 $("form").trigger("reset");

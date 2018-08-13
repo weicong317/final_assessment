@@ -1,3 +1,4 @@
+// to get quote from api using ajax
 $(window).on('load', function() {
   $.ajax({
     type: 'GET',
@@ -11,3 +12,4 @@ $(window).on('load', function() {
     }
   });
 });
+// end
