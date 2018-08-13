@@ -13,5 +13,5 @@ Feature:
 * Working AJAX.
 
 Rspec:
-* Wrote RSpec tests for 2 model specs.
-* 1 integration spec using the Capybara library.
+* Wrote RSpec tests for 2 model specs. (user and message)
+* 1 integration spec using the Capybara library. (user posting new message)
