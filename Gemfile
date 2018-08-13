@@ -45,6 +45,7 @@ gem 'will_paginate'
 
 # To upload
 gem 'carrierwave'
+gem "fog-aws"
 
 # Use jQuery
 gem 'jquery-rails'
