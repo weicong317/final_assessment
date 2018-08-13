@@ -7,12 +7,12 @@
       <%= form.text_area :message, class: "form-control", placeholder: "Message", style: "height: 200px" %>
     </p>
     <p>
-      <%= form.label :upload, "Only image:" %><br>
+      <%= form.label :upload, "(Optional) Only image:" %><br>
       <%= form.file_field :upload %>
     </p>
     <p>
       <%= form.label :category, "Category:" %><br>
-      <%= form.select :category, options_for_select([['Family', 1], ['Relationship', 2], ['Study', 3], ['Work', 4], ['Others', 5]]) %>
+      <%= form.select :category, options_for_select([['Family', 1], ['Relationship', 2], ['Study', 3], ['Work', 4], ['Others', 5]], ['Others', 5]) %>
     </p>
     <p>
       <%= form.submit "Post", class: "btn btn-lg btn-primary btn-block" %>

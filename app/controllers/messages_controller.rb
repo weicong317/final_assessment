@@ -4,15 +4,19 @@ class MessagesController < ApplicationController
   before_action :check_authorization, only: [:delete_request]
 
   def index
-    @messages = Message.all.reverse_order.paginate(:page => params[:page], :per_page => 20).order(:created_at)
+    @messages = Message.all.order(:created_at).reverse_order
   end
 
   def new
   end
 
   def create
-    Message.create(message: create_params[:message], user_id: current_user.id, upload: create_params[:upload], category: (create_params[:category].to_i - 1))
-    redirect_to messages_path
+    @message = Message.new(message: create_params[:message], user_id: current_user.id, upload: create_params[:upload], category: (create_params[:category].to_i - 1))
+    if @message.save
+      redirect_to @message
+    else
+      redirect_to messages_path
+    end
   end
 
   def show
@@ -31,9 +35,12 @@ class MessagesController < ApplicationController
   end
 
   def search
-    @message = Message.find(search_params[:search])
-    
-    redirect_to @message
+    @message = Message.where(id: search_params[:search]) if search_params[:search].present?
+    @message = Message.where(category: (search_params[:category].to_i - 1)) if search_params[:category].present?
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def delete_request
@@ -44,7 +51,7 @@ class MessagesController < ApplicationController
   end
 
   def old_to_new
-    @messages = Message.all.paginate(:page => params[:page], :per_page => 20).order(:created_at)
+    @messages = Message.all.order(:created_at)
 
     respond_to do |format|
       format.js { render :file => "/messages/order_by.js.erb" }
@@ -52,15 +59,16 @@ class MessagesController < ApplicationController
   end
 
   def with_comment
-    @messages = Message.joins(:comments).select('messages.*, count(comments) as comment_count').group('messages.id').order('comment_count desc') 
-
+    @messages = Message.joins(:comments).select('messages.*, count(comments) as comment_count').group('messages.id')
+    byebug
     respond_to do |format|
+      format.html
       format.js { render :file => "/messages/order_by.js.erb" }
     end
   end
 
   def with_image
-    @messages = Message.where.not(upload: nil).paginate(:page => params[:page], :per_page => 20)
+    @messages = Message.where.not(upload: nil)
 
     respond_to do |format|
       format.js { render :file => "/messages/order_by.js.erb" }
@@ -73,7 +81,7 @@ class MessagesController < ApplicationController
   end
 
   def search_params
-    params.require(:post_number).permit(:search)
+    params.require(:searching).permit(:search, :category).reject{|_, v| v.blank?}
   end
 
   def delete_params

@@ -40,9 +40,6 @@ gem "figaro"
 gem "betterlorem"
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 
-# To do pagination
-gem 'will_paginate'
-
 # To upload
 gem 'carrierwave'
 gem "fog-aws"
