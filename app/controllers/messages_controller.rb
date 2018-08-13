@@ -50,31 +50,6 @@ class MessagesController < ApplicationController
     redirect_to @message
   end
 
-  def old_to_new
-    @messages = Message.all.order(:created_at)
-
-    respond_to do |format|
-      format.js { render :file => "/messages/order_by.js.erb" }
-    end
-  end
-
-  def with_comment
-    @messages = Message.joins(:comments).select('messages.*, count(comments) as comment_count').group('messages.id')
-    byebug
-    respond_to do |format|
-      format.html
-      format.js { render :file => "/messages/order_by.js.erb" }
-    end
-  end
-
-  def with_image
-    @messages = Message.where.not(upload: nil)
-
-    respond_to do |format|
-      format.js { render :file => "/messages/order_by.js.erb" }
-    end
-  end
-
   private
   def create_params
     params.require(:new_message).permit(:message, :upload, :category)

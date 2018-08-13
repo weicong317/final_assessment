@@ -9,9 +9,6 @@ Rails.application.routes.draw do
   
   resources :sessions, only: [:new, :create, :destroy]
 
-  get "/messages/orderByOldToNew" => "messages#old_to_new"
-  get "/messages/orderByWithComment" => "messages#with_comment"
-  get "/messages/orderByWithImage" => "messages#with_image"
   get "/messages/search" => "messages#search"
   post "/messages/delete_request/:id" => "messages#delete_request"
 

@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
         redirect_to admin_dashboard_path
       end
     else
-      redirect_to root_path
+      redirect_to new_session_path
     end
   end
 
