@@ -65,7 +65,7 @@ describe "post_message_feature", type: :feature do
     end
 
     # unhappy_path
-    it "post new meesage success" do
+    it "post new meesage unsuccess" do
       visit root_path
       click_link('Sign In')
       fill_in("sign_in_email", with: user.email)

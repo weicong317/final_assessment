@@ -28,7 +28,9 @@
         <%# not request delete before %>
         <% if @message.delete_request.nil? %>
           <%# using modal to let user to enter reason before submit delete request %>
-          <%= button_tag "Delete Message", type: "button", class: "btn btn-warning", data: { toggle: "modal", terget: "#deleteMessage" } %>
+          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#deleteMessage">
+            Delete Message
+          </button>
           
           <%# modal start %>
           <div class="modal fade" id="deleteMessage" tabindex="-1" role="dialog" aria-labelledby="deleteMessageTitle" aria-hidden="true">
